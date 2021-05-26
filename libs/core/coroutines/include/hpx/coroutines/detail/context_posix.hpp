@@ -54,7 +54,9 @@
 #endif
 
 #if defined(__FreeBSD__) ||                                                    \
-    (defined(_XOPEN_UNIX) && defined(_XOPEN_VERSION) && _XOPEN_VERSION >= 500)
+    (defined(_XOPEN_UNIX) && defined(_XOPEN_VERSION) &&                        \
+        _XOPEN_VERSION >= 500) ||                                              \
+    defined(__bgq__) || defined(__powerpc__) || defined(__s390x__)
 
 // OS X 10.4 -- despite passing the test above -- doesn't support
 // swapcontext() et al. Use GNU Pth workalike functions.
@@ -340,7 +342,7 @@ namespace hpx { namespace threads { namespace coroutines {
 #if defined(HPX_HAVE_THREADS_GET_STACK_POINTER)
                 return get_stack_ptr() - reinterpret_cast<std::size_t>(m_stack);
 #else
-                return (std::numeric_limits<std::ptrdiff_t>::max)();
+                return (std::numeric_limits<std::ptrdiff_t>::max) ();
 #endif
             }
 
